@@ -5,14 +5,17 @@ data ChangeAttr = ChangeAttr {
     energy :: Int
 }
 
-data Action = Decision {
+sumChanges :: ChangeAttr -> ChangeAttr -> ChangeAttr
+sumChanges a b = ChangeAttr (sanity a + sanity b) (knowledge a + knowledge b) (money a + money b) (energy a + energy b)
+
+data Action = Action {
     desciption :: String,
     consequence :: String,
     changes :: ChangeAttr
 }
 
 data Mission = Mission {
-    options :: [Decision]
+    options :: [Action]
 }
 
 data Day = Day {
@@ -23,7 +26,12 @@ data Phase = Phase {
     days :: [Day]
 }
 
-
-data Phase = Game {
+data Game = Game {
     phases :: [Phase]
 }
+
+main :: IO ()
+main = do
+    let ts = ChangeAttr 2 3 4 5
+    let st = ChangeAttr 2 3 4 5
+    print (energy (sumChanges ts st))
